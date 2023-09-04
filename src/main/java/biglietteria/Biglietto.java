@@ -12,13 +12,10 @@ public class Biglietto {
 
     // COSTRUTTORE
 
-    public Biglietto(int kilometers, int passengerAge) throws IllegalArgumentException {
+    public Biglietto(int kilometers, int passengerAge) throws IllegalArgumentException,RuntimeException{
         // validazione parametri
-        if (!isValidKm(kilometers)){
-            throw new IllegalArgumentException("I kilometri devono essere positivi !");
-        }
-        if (!isValidEta(passengerAge)){
-            throw new IllegalArgumentException("L'età deve essere positiva !");
+        if (!isValidKm(kilometers) || !isValidEta(passengerAge)){
+            throw new IllegalArgumentException("kilometri  ed età del passeggero devono essere valori  positivi !");
         }
 
 
@@ -73,7 +70,8 @@ public class Biglietto {
 
         // Applica lo sconto al prezzo senza sconto
         BigDecimal prezzoConSconto = prezzoSenzaSconto.subtract(prezzoSenzaSconto.multiply(scontoCalcolato));
-
+        // Limita il risultato a due cifre decimali
+        prezzoConSconto = prezzoConSconto.setScale(2, BigDecimal.ROUND_HALF_UP);
         return prezzoConSconto;
     }
 
